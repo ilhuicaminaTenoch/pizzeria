@@ -5,6 +5,7 @@ import com.platzi.pizza.persitence.entity.PizzaOrderEntity;
 import com.platzi.pizza.service.PizzaService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,8 +23,9 @@ public class PizzaController {
     }
 
     @GetMapping
-    public ResponseEntity<List<PizzaEntity>> getAllPizzas() {
-        return ResponseEntity.ok(this.pizzaService.getAll());
+    public ResponseEntity<Page<PizzaEntity>> getAllPizzas(@RequestParam(defaultValue = "0") int page,
+                                                          @RequestParam(defaultValue = "8") int size) {
+        return ResponseEntity.ok(this.pizzaService.getAll(page, size));
     }
 
     @GetMapping("/{idPizza}")

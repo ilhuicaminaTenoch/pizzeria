@@ -1,23 +1,30 @@
 package com.platzi.pizza.service;
 
 import com.platzi.pizza.persitence.entity.PizzaEntity;
+import com.platzi.pizza.persitence.repository.PizzaPassportRepository;
 import com.platzi.pizza.persitence.repository.PizzaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
 @Service
 public class PizzaService {
     private final PizzaRepository pizzaRepository;
+    private final PizzaPassportRepository pizzaPagSortRespository;
 
     @Autowired
-    public PizzaService(PizzaRepository pizzaRepository) {
+    public PizzaService(PizzaRepository pizzaRepository, PizzaPassportRepository pizzaPagSortRespository) {
         this.pizzaRepository = pizzaRepository;
+        this.pizzaPagSortRespository = pizzaPagSortRespository;
     }
 
-    public List<PizzaEntity> getAll() {
-        return this.pizzaRepository.findAll();
+    public Page<PizzaEntity> getAll(int page, int size) {
+        Pageable pageRequest = PageRequest.of(page, size);
+        return this.pizzaPagSortRespository.findAll(pageRequest);
     }
 
     public List<PizzaEntity> getAvailable(){
