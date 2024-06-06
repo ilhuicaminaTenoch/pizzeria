@@ -24,4 +24,14 @@ public class PizzaOrderController {
     public ResponseEntity<List<PizzaOrderEntity>> getAll(){
         return ResponseEntity.ok(this.pizzaOrderService.getAll());
     }
+
+    @GetMapping("today")
+    public ResponseEntity<List<PizzaOrderEntity>> getToDateOrders(){
+        return ResponseEntity.ok(this.pizzaOrderService.getTodayOrders());
+    }
+
+    @GetMapping("/outside")
+    public ResponseEntity<List<PizzaOrderEntity>> getOutsideOrders(){
+        return ResponseEntity.ok(this.pizzaOrderService.getOutsiderOrders());
+    }
 }

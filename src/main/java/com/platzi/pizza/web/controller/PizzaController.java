@@ -1,6 +1,7 @@
 package com.platzi.pizza.web.controller;
 
 import com.platzi.pizza.persitence.entity.PizzaEntity;
+import com.platzi.pizza.persitence.entity.PizzaOrderEntity;
 import com.platzi.pizza.service.PizzaService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -79,6 +80,10 @@ public class PizzaController {
         } else {
             return ResponseEntity.badRequest().build();
         }
+    }
 
+    @GetMapping("/cheapest/{price}")
+    public ResponseEntity<List<PizzaEntity>> getCheapestPizza(@PathVariable double price) {
+        return ResponseEntity.ok(this.pizzaService.getCheapest(price));
     }
 }
