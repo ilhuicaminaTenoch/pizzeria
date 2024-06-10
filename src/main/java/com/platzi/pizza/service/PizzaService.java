@@ -1,11 +1,12 @@
 package com.platzi.pizza.service;
 
 import com.platzi.pizza.persitence.entity.PizzaEntity;
-import com.platzi.pizza.persitence.repository.PizzaPassportRepository;
+import com.platzi.pizza.persitence.repository.PizzaPagSortRepository;
 import com.platzi.pizza.persitence.repository.PizzaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.data.domain.Pageable;
 
@@ -14,10 +15,10 @@ import java.util.List;
 @Service
 public class PizzaService {
     private final PizzaRepository pizzaRepository;
-    private final PizzaPassportRepository pizzaPagSortRespository;
+    private final PizzaPagSortRepository pizzaPagSortRespository;
 
     @Autowired
-    public PizzaService(PizzaRepository pizzaRepository, PizzaPassportRepository pizzaPagSortRespository) {
+    public PizzaService(PizzaRepository pizzaRepository, PizzaPagSortRepository pizzaPagSortRespository) {
         this.pizzaRepository = pizzaRepository;
         this.pizzaPagSortRespository = pizzaPagSortRespository;
     }
@@ -27,9 +28,11 @@ public class PizzaService {
         return this.pizzaPagSortRespository.findAll(pageRequest);
     }
 
-    public List<PizzaEntity> getAvailable(){
-        System.out.println(this.pizzaRepository.countByVeganTrue());
-        return this.pizzaRepository.findAllByAvailableTrueOrderByPrice();
+    public Page<PizzaEntity> getAvailable(int page, int size, String sortBy, String sortDirection){
+        Sort sort = Sort.by(Sort.Direction.fromString(sortDirection), sortBy);
+        Pageable pageRequest = PageRequest.of(page, size, sort);
+
+        return this.pizzaPagSortRespository.findByAvailableTrue(pageRequest);
     }
 
     public PizzaEntity get(int idPizza) {
