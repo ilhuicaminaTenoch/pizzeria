@@ -1,6 +1,7 @@
 package com.platzi.pizza.service;
 
 import com.platzi.pizza.persitence.entity.PizzaOrderEntity;
+import com.platzi.pizza.persitence.projection.OrderSummary;
 import com.platzi.pizza.persitence.repository.PizzaOrderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -37,5 +38,13 @@ public class PizzaOrderService {
     public List<PizzaOrderEntity> getOutsiderOrders(){
         List<String> methods = Arrays.asList(DELIVERY, CARRYOUT);
         return this.pizzaOrderRepository.findAllByMethodIn(methods);
+    }
+
+    public List<PizzaOrderEntity> getCustomerOrder(String idCustomer){
+        return this.pizzaOrderRepository.findCustomerOrders(idCustomer);
+    }
+
+    public OrderSummary getSummary(int orderId){
+        return  this.pizzaOrderRepository.findOrderSummaryById(orderId);
     }
 }
