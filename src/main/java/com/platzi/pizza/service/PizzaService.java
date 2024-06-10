@@ -3,12 +3,14 @@ package com.platzi.pizza.service;
 import com.platzi.pizza.persitence.entity.PizzaEntity;
 import com.platzi.pizza.persitence.repository.PizzaPagSortRepository;
 import com.platzi.pizza.persitence.repository.PizzaRepository;
+import com.platzi.pizza.service.dto.UpdatePizzaPriceDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.data.domain.Pageable;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -65,5 +67,10 @@ public class PizzaService {
 
     public List<PizzaEntity> getCheapest(double price) {
         return this.pizzaRepository.findTop3ByAvailableTrueAndPriceLessThanEqualOrderByPriceAsc(price);
+    }
+
+    @Transactional
+    public void updatePrice(UpdatePizzaPriceDto dto) {
+        this.pizzaRepository.updatePrice(dto);
     }
 }
