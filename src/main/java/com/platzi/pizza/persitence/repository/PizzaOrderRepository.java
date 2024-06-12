@@ -3,6 +3,7 @@ package com.platzi.pizza.persitence.repository;
 import com.platzi.pizza.persitence.entity.PizzaOrderEntity;
 import com.platzi.pizza.persitence.projection.OrderSummary;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.jpa.repository.query.Procedure;
 import org.springframework.data.repository.ListCrudRepository;
 import org.springframework.data.repository.query.Param;
 
@@ -34,4 +35,7 @@ GROUP BY po.id_order,
          po.total
 """, nativeQuery = true)
     OrderSummary findOrderSummaryById(@Param("orderId") int orderId);
+
+    @Procedure(value = "take_random_pizza_order", outputParameterName = "order_taken")
+    boolean saveRandomOrder(@Param("id_customer") String idCustomer, @Param("method") String method);
 }
